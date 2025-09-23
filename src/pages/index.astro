@@ -1,0 +1,42 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import {getCollection} from "astro:content";
+
+const blog = (await getCollection("blog"))
+    .filter(post => !post.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+    .slice(0, 2);
+
+---
+
+<PageLayout title="title" description="description">
+    <Container>
+        <h4>
+            Hi, I'm Nano
+        </h4>
+        <div class="space-y-16">
+            <section>
+                <p>test</p>
+            </section>
+
+            <section>
+                <div>
+                    <h5>
+                        Latest posts
+                    </h5>
+                    <a href="/blog">
+                        See all posts
+                    </a>
+                </div>
+                <ul>
+                    {blog.map(post => (
+                            <li>
+                                test
+                            </li>
+                    ))}
+                </ul>
+            </section>
+        </div>
+    </Container>
+</PageLayout>
