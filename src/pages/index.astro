@@ -1,38 +1,53 @@
 ---
-import PageLayout from "@layouts/PageLayout.astro";
+import { getCollection } from "astro:content";
 import Container from "@components/Container.astro";
-import {getCollection} from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import Link from "@components/Link.astro";
+import { SITE, HOME } from "@consts";
 
 const blog = (await getCollection("blog"))
     .filter(post => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-    .slice(0, 2);
+    .slice(0,SITE.NUM_POSTS_ON_HOMEPAGE);
 
 ---
-
-<PageLayout title="title" description="description">
+<PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
     <Container>
-        <h4>
-            Hi, I'm Nano
+        <h4 class="animate font-semibold text-black dark:text-white">
+            Hello, moi, c'est Inanç <span class="text-xl">👋🏻</span>
         </h4>
         <div class="space-y-16">
             <section>
-                <p>test</p>
+                <article class="space-y-4">
+                    <p class="animate">
+                       J'ai créé ce blog pour partager des articles sur mes expériences dans le
+                        domaine de la programmation informatique.
+                    </p>
+                    <p class="animate">
+                        J'ai plus de 15 ans d'experience dans le développement et j'ai toujours cette envie
+                        d'apprendre de nouvelles choses et les partager.
+                    </p>
+                    <p class="animate">
+                        Ainsi, je partagerai régulièrement des articles sur le développement web, l'écosystème Java,
+                        également des exemples faisant intervenir l'intelligence artificielle.
+                    </p>
+                </article>
             </section>
 
-            <section>
-                <div>
-                    <h5>
-                        Latest posts
+            <section class="animate space-y-6">
+                <div class="flex flex-wrap gap-y-2 items-center justify-between">
+                    <h5 class="font-semibold text-black dark:text-white">
+                       Derniers articles
                     </h5>
-                    <a href="/blog">
-                        See all posts
-                    </a>
+                    <Link href="/blog">
+                       Voir tous les articles
+                    </Link>
                 </div>
-                <ul>
+                <ul class="flex flex-col gap-4">
                     {blog.map(post => (
                             <li>
-                                test
+                                <ArrowCard entry={post} />
                             </li>
                     ))}
                 </ul>

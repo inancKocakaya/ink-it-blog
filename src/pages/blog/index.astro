@@ -2,6 +2,8 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import { BLOG } from "@consts";
 
 const data = (await getCollection("blog"))
     .filter(post => !post.data.draft)
@@ -23,24 +25,21 @@ const posts = data.reduce((acc: Acc, post) => {
 const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
 ---
 
-<PageLayout title="title" description="description">
+<PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
     <Container>
         <div>
             <div>
-                Blog
-            </div>
-            <div>
                 {years.map(year => (
-                        <section>
-                            <div>
+                        <section class="animate space-y-4">
+                            <div class="font-semibold text-black dark:text-white">
                                 {year}
                             </div>
                             <div>
-                                <ul>
+                                <ul class="flex flex-col gap-4">
                                     {
                                         posts[year].map((post) => (
                                                 <li>
-                                                    test
+                                                    <ArrowCard entry={post}/>
                                                 </li>
                                         ))
                                     }
